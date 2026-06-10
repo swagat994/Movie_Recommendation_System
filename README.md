@@ -4,7 +4,7 @@ A content-based movie recommendation system that suggests movies similar to a us
 
 ## Live Demo
 
-**Application:** [Add Deployment URL Here]
+**Application:** 
 
 ## Overview
 
