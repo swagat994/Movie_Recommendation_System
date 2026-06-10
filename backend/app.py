@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv # type: ignore
 from pathlib import Path
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 import os
 import pickle
 import requests
@@ -22,16 +24,27 @@ API_KEY = os.getenv("TMDB_API_KEY")
 app = FastAPI()
 
 # =====================================
-# Load Artifacts
+# Load Movies Data
 # =====================================
 
 movies = pickle.load(
     open(BASE_DIR / "artifacts" / "movies.pkl", "rb")
 )
 
-similarity = pickle.load(
-    open(BASE_DIR / "artifacts" / "similarity.pkl", "rb")
+print("Generating similarity matrix...")
+
+cv = CountVectorizer(
+    max_features=5000,
+    stop_words="english"
 )
+
+vectors = cv.fit_transform(
+    movies["tags"]
+).toarray()
+
+similarity = cosine_similarity(vectors)
+
+print("Similarity matrix ready.")
 
 # =====================================
 # TMDB Helper Function
@@ -40,7 +53,10 @@ similarity = pickle.load(
 def fetch_poster(movie_id):
 
     try:
-        url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={API_KEY}"
+        url = (
+            f"https://api.themoviedb.org/3/movie/"
+            f"{movie_id}?api_key={API_KEY}"
+        )
 
         response = requests.get(url)
 
@@ -52,7 +68,10 @@ def fetch_poster(movie_id):
         poster_path = data.get("poster_path")
 
         if poster_path:
-            return f"https://image.tmdb.org/t/p/w500{poster_path}"
+            return (
+                f"https://image.tmdb.org/t/p/w500"
+                f"{poster_path}"
+            )
 
         return None
 
