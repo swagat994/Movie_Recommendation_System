@@ -1,0 +1,50 @@
+# Environment variables
+.env
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Large ML artifacts
+artifacts/similarity.pkl
+
+# Optional model files
+*.h5
+*.hdf5
+*.pt
+*.pth
+*.ckpt
+*.joblib
