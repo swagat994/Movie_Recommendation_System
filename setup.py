@@ -10,6 +10,7 @@ def get_requirements(file_path : str):
 
     if '-e .' in requirements:
         requirements.remove('-e .')
+    return requirements
 
 
 setup(
